@@ -3,6 +3,7 @@ import tkinter
 import tkinter.messagebox
 from tkintermapview import TkinterMapView
 
+
 #Code from https://github.com/TomSchimansky/TkinterMapView/blob/main/examples/map_view_demo.py
 class App(tkinter.Tk):
 
@@ -32,7 +33,7 @@ class App(tkinter.Tk):
         self.search_bar.grid(row=0, column=0, pady=10, padx=10, sticky="we")
         self.search_bar.focus()
 
-        self.search_bar_button = tkinter.Button(master=self, width=8, text="Search", command=self.search)
+        self.search_bar_button = tkinter.Button(master=self, width=8, text="Recherche Poisson", command=self.search)
         self.search_bar_button.grid(row=0, column=1, pady=10, padx=10)
 
         self.search_bar_clear = tkinter.Button(master=self, width=8, text="Clear", command=self.clear)
@@ -49,11 +50,11 @@ class App(tkinter.Tk):
 
         self.listbox_button_frame.grid_columnconfigure(0, weight=1)
 
-        self.save_marker_button = tkinter.Button(master=self.listbox_button_frame, width=20, text="save current marker",
+        self.save_marker_button = tkinter.Button(master=self.listbox_button_frame, width=20, text="Sauvegarder marker",
                                                  command=self.save_marker)
         self.save_marker_button.grid(row=0, column=0, pady=10, padx=10)
 
-        self.clear_marker_button = tkinter.Button(master=self.listbox_button_frame, width=20, text="clear marker list",
+        self.clear_marker_button = tkinter.Button(master=self.listbox_button_frame, width=20, text="Supp liste de marker",
                                                   command=self.clear_marker_list)
         self.clear_marker_button.grid(row=1, column=0, pady=10, padx=10)
 
@@ -61,8 +62,8 @@ class App(tkinter.Tk):
                                                     command=self.connect_marker)
         self.connect_marker_button.grid(row=2, column=0, pady=10, padx=10)
 
-        self.map_widget.set_address("NYC")
-
+        #self.map_widget.set_address("NYC")
+        self.map_widget.set_position(43.66106,3.80563)
         self.marker_list = []
         self.marker_path = None
 
