@@ -3,11 +3,12 @@ import tkinter
 import tkinter.messagebox
 from tkintermapview import TkinterMapView
 
+from main import zones
 
 #Code from https://github.com/TomSchimansky/TkinterMapView/blob/main/examples/map_view_demo.py
 class App(tkinter.Tk):
 
-    APP_NAME = "map_view_demo.py"
+    APP_NAME = "fishMap.py"
     WIDTH = 800
     HEIGHT = 750
 
@@ -69,6 +70,12 @@ class App(tkinter.Tk):
 
         self.search_marker = None
         self.search_in_progress = False
+
+        # Création des lieux de prélèvement
+        for zone in zones:
+            self.map_widget.set_marker(zone["latitude"], zone["longitude"], text="")
+
+
 
     def search(self, event=None):
         if not self.search_in_progress:
