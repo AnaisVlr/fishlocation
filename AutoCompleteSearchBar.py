@@ -3,20 +3,20 @@ from tkinter import *
 
 class AutoCompleteSearchBar:
 
-    def __init__(self, root, listeItems):
+    def __init__(self, root, listeItems,row=0,col=0,entrySize=50):
         self.frame = Frame(root)
-        self.frame.pack()
+        self.frame.grid(row=row, column=col)
 
         # creating text box
-        self.e = Entry(self.frame)
-        self.e.pack()
+        self.e = Entry(self.frame,width=entrySize)
+        self.e.grid(row=row, column=col)
 
         # creating list box
-        self.lb = Listbox(self.frame)
-        self.lb.pack()
+        self.lb = Listbox(self.frame,height=int(entrySize/10),width=entrySize)
+        self.lb.grid(row=row+1, column=col)
 
-        self.sb = Scrollbar(self.frame, orient=HORIZONTAL)
-        self.sb.pack(fill=X)
+        self.sb = Scrollbar(self.frame, orient=VERTICAL)
+        self.sb.grid(row=row+1, column=col,sticky="e")
 
         self.lb.configure(xscrollcommand=self.sb.set)
         self.sb.config(command=self.lb.xview)
@@ -26,6 +26,7 @@ class AutoCompleteSearchBar:
         self.frame.bind("<Return>", self.search)
 
         self.update(listeItems, self.lb)
+        print(self.frame.winfo_manager())
 
     # Function for checking the
     # key pressed and updating
@@ -50,6 +51,9 @@ class AutoCompleteSearchBar:
             input.delete(0, END)
             input.insert(0, value)
 
+    def getInput(self):
+        return self.e.get()
+
     def updateInputOnClick(self, event, inputToUpdate):
         target = event.widget
         if target is not None:
@@ -68,6 +72,7 @@ class AutoCompleteSearchBar:
     # Driver code
 
 
+"""
 l = ('C', 'C++', 'Java',
      'Python', 'Perl',
      'PHP', 'ASP', 'JS',
@@ -95,3 +100,4 @@ l = ('C', 'C++', 'Java',
 root = Tk()
 search = AutoCompleteSearchBar(root,l)
 root.mainloop()
+"""

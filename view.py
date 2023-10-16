@@ -2,8 +2,8 @@ import sys
 import tkinter
 import tkinter.messagebox
 from tkintermapview import TkinterMapView
-
-from main import zones, nouveau_df
+from AutoCompleteSearchBar import AutoCompleteSearchBar
+from main import zones, nouveau_df,listPoisson
 
 #Code from https://github.com/TomSchimansky/TkinterMapView/blob/main/examples/map_view_demo.py
 class App(tkinter.Tk):
@@ -24,15 +24,19 @@ class App(tkinter.Tk):
             self.bind("<Command-q>", self.on_closing)
             self.bind("<Command-w>", self.on_closing)
 
+
         self.grid_columnconfigure(0, weight=1)
         self.grid_columnconfigure(1, weight=0)
         self.grid_columnconfigure(2, weight=0)
         self.grid_rowconfigure(1, weight=1)
+        """
 
         #Search bar pour trouver un poisson
         self.search_fish_bar = tkinter.Entry(self, width=50)
         self.search_fish_bar.grid(row=0, column=0, pady=10, padx=10, sticky="we")
         self.search_fish_bar.focus()
+        """
+        self.search_fish_bar = AutoCompleteSearchBar(self,listPoisson)
 
         self.search_fish_bar_button = tkinter.Button(master=self, width=8, text="Find fish", command=self.search_fish)
         self.search_fish_bar_button.grid(row=0, column=1, pady=10, padx=10)
@@ -65,19 +69,20 @@ class App(tkinter.Tk):
     def search_fish(self, event=None):
         self.clear_marker_list()
         # Obtenir le nom du poisson recherché
-        poisson = self.search_fish_bar.get()
-        # Filtrer le dataframe pour ne garder que les lignes qui correspondent au poisson recherché
-        poissons_filtres = nouveau_df[nouveau_df['vernacularName'] == poisson]
-        # Obtenir les emplacements où le poisson a été trouvé
-        emplacements = poissons_filtres[['decimalLatitude', 'decimalLongitude']]
+        poisson = self.search_fish_bar.getInput()
+        if poisson is not None:
+            # Filtrer le dataframe pour ne garder que les lignes qui correspondent au poisson recherché
+            poissons_filtres = nouveau_df[nouveau_df['vernacularName'] == poisson]
+            # Obtenir les emplacements où le poisson a été trouvé
+            emplacements = poissons_filtres[['decimalLatitude', 'decimalLongitude']]
 
-        # Afficher les emplacements sur la carte
-        for _, row in emplacements.iterrows():
-            latitude = row['decimalLatitude']
-            longitude = row['decimalLongitude']
+            # Afficher les emplacements sur la carte
+            for _, row in emplacements.iterrows():
+                latitude = row['decimalLatitude']
+                longitude = row['decimalLongitude']
 
-            self.marker_list.append(self.map_widget.set_marker(latitude, longitude, text=""))
-        self.map_widget.set_position(emplacements.iat[0,0], emplacements.iat[0,1])
+                self.marker_list.append(self.map_widget.set_marker(latitude, longitude, text=poisson))
+            self.map_widget.set_position(emplacements.iat[0,0], emplacements.iat[0,1])
         
 
     def save_marker(self):

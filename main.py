@@ -7,6 +7,9 @@ colonnes_a_conserver = ['taxonID', 'scientificName', 'vernacularName','decimalLa
 
 nouveau_df = df[colonnes_a_conserver]
 
+listPoisson = df["vernacularName"].dropna().unique()
+
+
 # Créez un dictionnaire pour stocker les informations de chaque zone en utilisant les coordonnées comme clé
 zones = {}
 
