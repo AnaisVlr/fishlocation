@@ -24,7 +24,10 @@ class AutoCompleteSearchBar:
         self.e.bind('<KeyRelease>', lambda event: self.checkkey(event, listeItems, self.lb))
         self.lb.bind("<<ListboxSelect>>", lambda event: self.updateInputOnClick(event, self.e))
         self.frame.bind("<Return>", self.search)
+        self.e.bind("<FocusIn>",self.focusIn)
+        self.e.bind("<FocusOut>",self.focusOut)
 
+        self.lb.grid_forget()
         self.update(listeItems, self.lb)
         print(self.frame.winfo_manager())
 
@@ -70,7 +73,12 @@ class AutoCompleteSearchBar:
         val = self.e.get()
         print("yeah!",val)
     # Driver code
-
+    def focusIn(self,event):
+        print("i'm focused")
+        self.lb.grid()
+    def focusOut(self,event):
+        print("im out")
+        self.lb.grid_forget()
 
 """
 l = ('C', 'C++', 'Java',
