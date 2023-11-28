@@ -25,11 +25,14 @@ class App(tkinter.Tk):
             self.bind("<Command-q>", self.on_closing)
             self.bind("<Command-w>", self.on_closing)
 
-        self.grid_columnconfigure(0, weight=1)
-        self.grid_columnconfigure(1, weight=0)
-        self.grid_columnconfigure(2, weight=0)
-        self.grid_rowconfigure(1, weight=0)
+        self.grid_columnconfigure(0, weight=4)
+        self.grid_columnconfigure(1, weight=3)
+        self.grid_columnconfigure(2, weight=3)
+        self.grid_rowconfigure(1, weight=1)
         self.grid_rowconfigure(2, weight=1)
+        self.grid_rowconfigure(3, weight=1)
+        self.grid_rowconfigure(4, weight=1)
+        self.grid_rowconfigure(5, weight=5)
         """
 
         #Search bar pour trouver un poisson
@@ -39,48 +42,48 @@ class App(tkinter.Tk):
         """
         self.search_fish_bar = AutoCompleteSearchBar(self, listPoisson)
 
-        self.search_fish_bar_button = tkinter.Button(master=self, width=8, text="Find fish", command=self.search_fish)
-        self.search_fish_bar_button.grid(row=0, column=1, pady=10, padx=10)
+        self.search_fish_bar_button = tkinter.Button(master=self, width=10, text="Find fish", command=self.search_fish)
+        self.search_fish_bar_button.grid(row=0, column=2,pady=10, padx=10, sticky="w")
 
-        self.search_fish_bar_clear = tkinter.Button(master=self, width=8, text="Clear", command=self.clear_fish)
-        self.search_fish_bar_clear.grid(row=0, column=2, pady=10, padx=10)
+        self.search_fish_bar_clear = tkinter.Button(master=self, width=10, text="Clear", command=self.clear_fish)
+        self.search_fish_bar_clear.grid(row=1, column=2, pady=10, padx=10, sticky="w")
 
         # Recherche avancee
         self.filtre_frame = tkinter.Frame(master=self)
-        self.filtre_frame.grid(row=1, column=1)
+        self.filtre_frame.columnconfigure(0, minsize=200)
+        self.filtre_frame.grid(row=0, column=3, rowspan=5, sticky="nsew", pady=10, padx=10)
 
         self.filtre_isActive = tkinter.BooleanVar()
         self.filtre_checkbox_active = tkinter.Checkbutton(master=self.filtre_frame, text='Recherche Avancée',
                                                           variable=self.filtre_isActive, onvalue=True, offvalue=False)
-        self.filtre_checkbox_active.grid()
+        self.filtre_checkbox_active.grid(row=0, sticky="w")
 
         self.filtre_ville_label = tkinter.Label(master=self.filtre_frame, text="Ville :")
-        self.filtre_ville_label.grid()
+        self.filtre_ville_label.grid(row=1, sticky="w")
 
-        self.filtre_ville_entry = tkinter.Entry(master=self.filtre_frame)
-        self.filtre_ville_entry.grid()
+        self.filtre_ville_entry = tkinter.Entry(master=self.filtre_frame, name="ville")
+        self.filtre_ville_entry.grid(row=2)
 
         self.filtre_radius_label = tkinter.Label(master=self.filtre_frame, text="Radius (km) :")
-        self.filtre_radius_label.grid()
+        self.filtre_radius_label.grid(row=3, sticky="w")
 
         self.filtre_radius_entry = tkinter.Scale(master=self.filtre_frame, from_=0, to=200, orient=tkinter.HORIZONTAL)
-        self.filtre_radius_entry.grid()
+        self.filtre_radius_entry.grid(row=4)
 
-        # Info sur le cote
+        # Nombre resultats
         self.info_frame = tkinter.Frame(master=self)
-        self.info_frame.grid(row=2, column=2)
+        # self.info_frame.grid(row=4, column=0, columnspan=2, sticky="w")
 
         self.info_label = tkinter.Label(master=self.info_frame, text="Nombre de résultats :")
-        self.info_label.grid()
+        # self.info_label.grid(column=0)
 
         self.info_number = tkinter.Label(master=self.info_frame, text="")
-        self.info_number.grid()
+        # self.info_number.grid(column=1)
 
         # Map
-        self.map_widget = TkinterMapView(width=self.WIDTH, height=600, corner_radius=0)
-        self.map_widget.grid(row=2, column=0, columnspan=2, sticky="nsew")
+        self.map_widget = TkinterMapView(width=self.WIDTH, height=550, corner_radius=0)
+        self.map_widget.grid(row=5, column=0, columnspan=4)
 
-        # self.map_widget.set_address("NYC")
         self.map_widget.set_position(43.66106, 3.80563)
 
         self.marker_list = []

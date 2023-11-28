@@ -5,21 +5,19 @@ class AutoCompleteSearchBar:
 
     def __init__(self, root, listeItems,row=0,col=0,entrySize=50):
         self.frame = Frame(root)
-        self.frame.grid(row=row, column=col)
+        self.frame.grid(row=row, column=col, rowspan=4, sticky="nw", pady=10, padx=10)
 
         # creating text box
         self.e = Entry(self.frame,width=entrySize)
-        self.e.grid(row=row, column=col)
+        self.e.grid(row=row, column=col, sticky="n")
 
         # creating list box
-        self.lb = Listbox(self.frame,height=int(entrySize/10),width=entrySize)
-        self.lb.grid(row=row+1, column=col)
+        self.lb = Listbox(self.frame,height=5,width=entrySize)
+        self.lb.grid(row=1, column=col)
 
-        self.sb = Scrollbar(self.frame, orient=VERTICAL)
-        self.sb.grid(row=row+1, column=col,sticky="e")
-
-        self.lb.configure(xscrollcommand=self.sb.set)
-        self.sb.config(command=self.lb.xview)
+        self.sb = Scrollbar(self.lb, orient=VERTICAL)
+        self.lb.configure(yscrollcommand=self.sb.set)
+        self.sb.config(command=self.lb.yview)
 
         self.e.bind('<KeyRelease>', lambda event: self.checkkey(event, listeItems, self.lb))
         self.lb.bind("<<ListboxSelect>>", lambda event: self.updateInputOnClick(event, self.e))
